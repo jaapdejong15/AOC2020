@@ -1,8 +1,4 @@
-#include <fstream>
-#include <iostream>
-#include <chrono>
-#include <vector>
-#include <string>
+#include "day1.h"
 
 void swap(int* a, int* b) {
 	int c = *a;
@@ -45,7 +41,7 @@ bool logfinder(std::vector<int>& input, int num_to_find, int l, int r) {
 	else return logfinder(input, num_to_find, l, m - 1);
 }
 
-void part1() {
+void day1_1() {
 	std::ifstream file("input1.txt");
 	std::vector<int> input;
 	int entry;
@@ -68,10 +64,10 @@ void part1() {
 
 	auto stop = std::chrono::high_resolution_clock::now();
 	std::chrono::duration<double, std::milli> time = stop - start;
-	printf("==========\nAnswer:        %d\nCalculated in: %f ms\n==========", answer, time.count());
+	printf("==========\nPART 1\nAnswer:        %d\nCalculated in: %f ms\n==========", answer, time.count());
 }
 
-void part2() {
+void day1_2() {
 	std::ifstream file("input1.txt");
 	std::vector<int> input;
 	int entry;
@@ -102,10 +98,5 @@ void part2() {
 
 	auto stop = std::chrono::high_resolution_clock::now();
 	std::chrono::duration<double, std::milli> time = stop - start;
-	printf("==========\nAnswer:        %d\nCalculated in: %f ms\n==========", answer, time.count());
-}
-
-int main() {
-	part1();
-	part2();
+	printf("==========\nPART 2\nAnswer:        %d\nCalculated in: %f ms\n==========", answer, time.count());
 }
