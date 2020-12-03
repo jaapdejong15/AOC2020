@@ -21,9 +21,7 @@ long long count(int x, int y) {
 	int input_width = input[0].size();
 	int j = x;
 	for (int i = y; i < input.size(); i += y) {
-		if (input[i][j % input_width]) {
-			answer++;
-		}
+		answer += input[i][j % input_width];
 		j += x;
 	}
 	return answer;
