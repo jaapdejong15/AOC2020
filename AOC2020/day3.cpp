@@ -1,7 +1,7 @@
 #include "day3.h"
 #include <tuple>
 
-std::vector<std::vector<bool>> getInput() {
+std::vector<std::vector<bool>> getInput3() {
 	std::ifstream file("input3.txt");
 	std::vector<std::vector<bool>> input;
 	for (std::string entry; std::getline(file, entry);) {
@@ -14,7 +14,7 @@ std::vector<std::vector<bool>> getInput() {
 	return input;
 }
 
-std::vector<std::vector<bool>> input = getInput();
+std::vector<std::vector<bool>> input = getInput3();
 
 long long count(int x, int y) {
 	unsigned long long answer = 0;

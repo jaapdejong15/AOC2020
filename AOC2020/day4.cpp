@@ -42,15 +42,24 @@ std::vector<std::string> split(std::string x, char token) {
 	return output;
 }
 
-void day4_1() {
+std::vector<std::string> getInput4() {
 	std::ifstream file("input4.txt");
-	int count = 0;
-	std::vector<bool> fieldsPresent;
-	std::vector<std::string> fields = { "byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid" };
-	for (int i = 0; i < fields.size(); i++) {
-		fieldsPresent.push_back(false);
-	}
+	std::vector<std::string> lines;
 	for (std::string line; std::getline(file, line);) {
+		lines.push_back(line);
+	}
+	return lines;
+}
+
+void day4_1() {
+	std::vector<std::string> lines = getInput4();
+
+	auto start = std::chrono::high_resolution_clock::now();
+
+	int count = 0;
+	std::vector<bool> fieldsPresent(7, false);
+	std::vector<std::string> fields = { "byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid" };
+	for (std::string line : lines) {
 		if (line.empty()) {
 			bool valid = true;
 			for (bool b : fieldsPresent) {
@@ -77,25 +86,29 @@ void day4_1() {
 		if (!b) valid = false;
 	}
 	count += valid;
+	auto stop = std::chrono::high_resolution_clock::now();
 
-	printf("Answer: %d\n", count);
+	std::chrono::duration<double, std::milli> time = stop - start;
+	printf("==========\nPART 2\nAnswer:        %d\nCalculated in: %f ms\n==========\n", count, time.count());
 }
 
 void day4_2() {
 	std::regex hair_color("^hcl:#[0-9a-f]{6}$");
 	std::regex eye_color("^ecl:(amb|blu|brn|gry|grn|hzl|oth)$");
+	initialize();	
+	std::vector<std::string> lines = getInput4();
 
-	initialize();
-	std::ifstream file("input4.txt");
+	auto start = std::chrono::high_resolution_clock::now();
+
 	int count = 0;
 	std::vector<std::string> fields = { "byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid" };	
-	std::vector<bool> fieldsValid;
-	for (int i = 0; i < fields.size(); i++) {
-		fieldsValid.push_back(false);
-	}
-	for (std::string line; std::getline(file, line);) {
+	std::vector<bool> fieldsValid(7, false);
+	bool valid;
+	int value;
+
+	for (std::string line : lines) {
 		if (line.empty()) {
-			bool valid = true;
+			valid = true;
 			// See if all checks were correct
 			for (int i = 0; i < fieldsValid.size(); i++) {
 				if (!fieldsValid[i]) valid = false;
@@ -103,7 +116,6 @@ void day4_2() {
 			}
 			count += valid;
 		} else {
-			int value; 
 			std::vector<std::string> keyvalues = split(line, ' ');
 			for (std::string keyvalue : keyvalues) {
 				field key = field_map[keyvalue.substr(0, 3)];
@@ -121,17 +133,13 @@ void day4_2() {
 						fieldsValid[2] = value >= 2020 && value <= 2030;
 						break;
 					case field::hgt: 
-						if (keyvalue.substr(keyvalue.size() - 2, 2).compare("cm") == 0) {
-							value = std::stoi(keyvalue.substr(4, keyvalue.size() - 6));
-							fieldsValid[3] = value >= 150 && value <= 193;
-						}
-						else if (keyvalue.substr(keyvalue.size() - 2, 2).compare("in") == 0) {
-							value = std::stoi(keyvalue.substr(4, keyvalue.size() - 6));
-							fieldsValid[3] = value >= 59 && value <= 76;
-						}
-						else {
+						if (keyvalue.size() < 8) {
 							fieldsValid[3] = false;
+							break;
 						}
+						value = std::stoi(keyvalue.substr(4, keyvalue.size() - 6));
+						fieldsValid[3] = value >= 150 && value <= 193 && keyvalue.substr(keyvalue.size() - 2, 2).compare("cm") == 0
+							|| value >= 59 && value <= 76 && keyvalue.substr(keyvalue.size() - 2, 2).compare("in") == 0;
 						break;
 					case field::hcl:
 						fieldsValid[4] = keyvalue[4] == '#' && keyvalue.size() == 11 && keyvalue.find_first_not_of("0123456789abcdef", 5) == std::string::npos;
@@ -148,13 +156,15 @@ void day4_2() {
 			}
 		}
 	}
-	bool valid = true;
+	valid = true;
 	for (int i = 0; i < fieldsValid.size(); i++) {
 		if (!fieldsValid[i]) valid = false;
 		fieldsValid[i] = false;
 	}
 	count += valid;
+	auto stop = std::chrono::high_resolution_clock::now();
 
-	std::cout << "Answer: " << count << std::endl;
+	std::chrono::duration<double, std::milli> time = stop - start;
+	printf("==========\nPART 2\nAnswer:        %d\nCalculated in: %f ms\n==========\n", count, time.count());
 
 }
