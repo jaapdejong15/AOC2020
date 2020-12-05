@@ -2,6 +2,7 @@
 #include "day2.h"
 #include "day3.h"
 #include "day4.h"
+#include "day5.h"
 
 int main(){
 	//day1_1();
@@ -10,6 +11,7 @@ int main(){
 	//day2_2();
 	//day3_1();
 	//day3_2();
-	day4_1();
-	day4_2();
+	//day4_1();
+	//day4_2();
+	day5_1();
 }
