@@ -25,15 +25,6 @@ std::vector<std::string> split7(std::string x, char token) {
 	return output;
 }
 
-void arr_printer(std::vector<std::vector<int>> arr) {
-	for (std::vector<int> x : arr) {
-		for (int i : x) {
-			std::cout << i << " ";
-		}
-		std::cout << std::endl;
-	}
-}
-
 void day7_1() {
 	std::vector<std::string> input = getInput7();
 	std::unordered_set<std::string> colorset;
@@ -102,4 +93,64 @@ void day7_1() {
 		unexplored = new_unexplored;
 	}
 	std::cout << "size: " << indices.size() << std::endl;
+}
+
+int count_bags(std::vector<std::vector<int>> adjacency_matrix, int bag_id) {
+	int count = 1;
+	for (int i = 0; i < adjacency_matrix[0].size(); i++) {
+		if (adjacency_matrix[bag_id][i] != 0) {
+			count += adjacency_matrix[bag_id][i] * count_bags(adjacency_matrix, i);
+		}
+	}
+	return count;
+}
+
+void day7_2() {
+	std::vector<std::string> input = getInput7();
+	std::unordered_set<std::string> colorset;
+
+	std::vector<std::tuple<std::string, std::vector<int>, std::vector<std::string>>> data;
+	for (std::string line : input) {
+		std::vector<std::string> words = split7(line, ' ');
+		std::string outer_bag = words[0] + words[1];
+		colorset.insert(outer_bag);
+		std::vector<int> amounts;
+		std::vector<std::string> colors;
+		size_t inner_bag_id = 0;
+		while (inner_bag_id < (words.size() - 4) / 4) {
+			std::string color = words[5 + 4 * inner_bag_id] + words[6 + 4 * inner_bag_id];
+			if (color.compare("noother") != 0) {
+				amounts.push_back(std::stoi(words[4 + 4 * inner_bag_id]));
+				colors.push_back(color);
+			}
+			inner_bag_id++;
+		}
+		data.push_back(std::make_tuple(outer_bag, amounts, colors));
+	}
+
+	int num_colors = 0;
+	std::unordered_map<std::string, int> color_to_index;
+	std::unordered_map<int, std::string> index_to_color;
+	for (std::string color : colorset) {
+		color_to_index.insert({ color, num_colors });
+		index_to_color.insert({ num_colors, color });
+		num_colors++;
+	}
+
+	std::vector<std::vector<int>> adjacency_matrix;
+	std::cout << "i = " << num_colors << std::endl;
+	for (int i = 0; i < num_colors; i++) {
+		adjacency_matrix.push_back(std::vector<int>(num_colors, 0));
+	}
+
+	for (std::tuple<std::string, std::vector<int>, std::vector<std::string>> tuple : data) {
+		int index1 = color_to_index[std::get<0>(tuple)];
+		for (int j = 0; j < std::get<1>(tuple).size(); j++) {
+			int index2 = color_to_index[std::get<2>(tuple)[j]];
+			adjacency_matrix[color_to_index[std::get<0>(tuple)]][color_to_index[std::get<2>(tuple)[j]]] = std::get<1>(tuple)[j];
+		}
+	}
+
+	int count = count_bags(adjacency_matrix, color_to_index["shinygold"]) - 1;
+	printf("Count: %d\n", count);
 }
