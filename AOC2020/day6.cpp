@@ -12,6 +12,8 @@ std::vector<std::string> getInput6() {
 void day6_1() {
 	std::vector<std::string> input = getInput6();
 
+	auto start = std::chrono::high_resolution_clock::now();
+
 	int count = 0;
 	uint32_t answers = 0;
 	for (std::string line : input) {
@@ -32,12 +34,17 @@ void day6_1() {
 		count += answers & 1U;
 		answers >>= 1;
 	}
-	answers = 0U;
-	printf("Answer: %d\n", count);
+
+	auto stop = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<double, std::milli> time = stop - start;
+	printf("==========\nPART 1\nAnswer:        %d\nCalculated in: %f ms\n==========\n", count, time.count());
+
 }
 
 void day6_2() {
 	std::vector<std::string> input = getInput6();
+
+	auto start = std::chrono::high_resolution_clock::now();
 
 	int count = 0;
 	uint32_t answers = 0xFFFFFFFF;
@@ -62,5 +69,8 @@ void day6_2() {
 		answers >>= 1;
 	}
 	answers = 0U;
-	printf("Answer: %d\n", count);
+
+	auto stop = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<double, std::milli> time = stop - start;
+	printf("==========\nPART 2\nAnswer:        %d\nCalculated in: %f ms\n==========\n", count, time.count());
 }
