@@ -58,6 +58,42 @@ void day8_1() {
 	std::cout << "ANSWER: " << accumulator << std::endl;
 }
 
+/*
+ This function is essentially equal to the run() function, but returning the visited lines every time from that function
+ adds about 1.5ms run time.
+*/
+std::unordered_set<int> get_visited_lines(std::vector <std::tuple<instruction, int>> program) {
+	int current_line = 0;
+	int accumulator = 0;
+	std::unordered_set<int> lines_visited;
+	int previous_size = 0;
+	bool terminated = true;
+	while (current_line < program.size()) {
+		lines_visited.insert(current_line);
+		if (lines_visited.size() == previous_size) {
+			terminated = false;
+			break;
+		}
+		previous_size = lines_visited.size();
+		std::tuple<instruction, int> line = program[current_line];
+		instruction x = std::get<0>(line);
+		int argument = std::get<1>(line);
+		switch (x) {
+		case instruction::nop:
+			current_line++;
+			break;
+		case instruction::acc:
+			accumulator += argument;
+			current_line++;
+			break;
+		case instruction::jmp:
+			current_line += argument;
+			break;
+		}
+	}
+	return lines_visited;
+}
+
 std::tuple<bool, int> run(std::vector <std::tuple<instruction, int>> program) {
 	int current_line = 0;
 	int accumulator = 0;
@@ -94,6 +130,8 @@ void day8_2() {
 	initialize8();
 	std::vector<std::string> input = getInput8();
 
+	auto start = std::chrono::high_resolution_clock::now();
+
 	std::vector<std::tuple<instruction, int>> program;
 	for (std::string line : input) {
 		instruction x = instruction_map[line.substr(0, 3)];
@@ -101,9 +139,11 @@ void day8_2() {
 		program.push_back(std::make_tuple(x, argument));
 	}
 
+	std::unordered_set<int> visited_lines = get_visited_lines(program);
+
 	int answer = 0;
 	std::tuple<bool, int> results;
-	for (int i = 0; i < program.size(); i++) {
+	for (int i : visited_lines) {
 		std::tuple<instruction, int> line = program[i];
 		instruction x = std::get<0>(line);
 		int argument = std::get<1>(line);
@@ -116,7 +156,6 @@ void day8_2() {
 				answer = std::get<1>(results);
 			}
 			program[i] = std::make_tuple(instruction::nop, argument);
-			
 			break;
 		case instruction::jmp:
 			program[i] = std::make_tuple(instruction::nop, argument);
@@ -131,5 +170,8 @@ void day8_2() {
 		}
 	}
 
-	std::cout << "ANSWER: " << answer << std::endl;
+
+	auto stop = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<double, std::milli> time = stop - start;
+	printf("==========\nPART 2\nAnswer:        %d\nCalculated in: %f ms\n==========\n", answer, time.count());
 }
