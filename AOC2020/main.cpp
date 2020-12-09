@@ -1,3 +1,4 @@
+#include "timer.h"
 #include "day1.h"
 #include "day2.h"
 #include "day3.h"
@@ -7,24 +8,23 @@
 #include "day7.h"
 #include "day8.h"
 #include "day9.h"
+#include <stdexcept>
+#include <tuple>
+
+typedef int Solution(std::string, Timer &timer);
+
+void run(Solution s, std::string input, unsigned int times = 1) {
+	if (times < 1) throw std::invalid_argument("Times should be greater than zero!");
+	Timer* timer = new Timer();
+	std::int_fast64_t answer;
+	for (int i = 0; i < times; i++) {
+		answer = s(input, *timer);
+	}
+	std::tuple<double, int> timing_data = timer->getTimingData();
+	printf("Answer: %lld\n", answer);
+	printf("\n--------===TIMER===--------\n -median time: %f ms\n -sample size: %d\n", std::get<0>(timing_data), std::get<1>(timing_data), std::get<1>(timing_data));
+}
 
 int main(){
-	//day1_1();
-	//day1_2();
-	//day2_1();
-	//day2_2();
-	//day3_1();
-	//day3_2();
-	//day4_1();
-	//day4_2();
-	//day5_1();
-	//day5_2();
-	//day6_1();
-	//day6_2();
-	//day7_1();
-	//day7_2();
-	//day8_1();
-	//day8_2();
-	day9_1();
-	day9_2();
+	run(day9_2, "input9.txt", 1000);
 }

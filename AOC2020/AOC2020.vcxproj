@@ -132,9 +132,11 @@
     <ClCompile Include="day7.cpp" />
     <ClCompile Include="day8.cpp" />
     <ClCompile Include="day9.cpp" />
+    <ClCompile Include="helper.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="day2.cpp" />
     <ClCompile Include="day8.h" />
+    <ClCompile Include="timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="input1.txt" />
@@ -155,7 +157,9 @@
     <ClInclude Include="day6.h" />
     <ClInclude Include="day7.h" />
     <ClInclude Include="day9.h" />
+    <ClInclude Include="helper.h" />
     <ClInclude Include="input9.txt" />
+    <ClInclude Include="timer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
