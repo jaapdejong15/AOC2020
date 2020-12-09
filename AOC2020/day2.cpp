@@ -1,13 +1,9 @@
 #include "day2.h"
 
-void day2_1() {
-	std::ifstream file("input2.txt");
-	std::vector<std::string> input;
-	for (std::string entry; std::getline(file, entry);) {
-		input.push_back(entry);
-	}
+int day2_1(Timer &timer) {
+	std::vector<std::string> input = getStringInput("input2.txt");
 
-	auto start = std::chrono::high_resolution_clock::now();
+	timer.start();
 
 	int answer = 0;
 	for (std::string line : input) {
@@ -24,20 +20,14 @@ void day2_1() {
 		}
 	}
 
-	auto stop = std::chrono::high_resolution_clock::now();
-
-	std::chrono::duration<double, std::milli> time = stop - start;
-	printf("==========\nPART 1\nAnswer:        %d\nCalculated in: %f ms\n==========", answer, time.count());
+	timer.stop();
+	return answer;
 }
 
-void day2_2() {
-	std::ifstream file("input2.txt");
-	std::vector<std::string> input;
-	for (std::string entry; std::getline(file, entry);) {
-		input.push_back(entry);
-	}
+int day2_2(Timer &timer) {
+	std::vector<std::string> input = getStringInput("input2.txt");
 
-	auto start = std::chrono::high_resolution_clock::now();
+	timer.start();
 
 	int answer = 0;
 	for (std::string line : input) {
@@ -51,12 +41,7 @@ void day2_2() {
 		if ((char1 == character) ^ (char2 == character)) {
 			answer++;
 		}
-
-		
 	}
-	
-	auto stop = std::chrono::high_resolution_clock::now();
-	
-	std::chrono::duration<double, std::milli> time = stop - start;
-	printf("==========\nPART 2\nAnswer:        %d\nCalculated in: %f ms\n==========", answer, time.count());
+	timer.stop();
+	return answer;
 }

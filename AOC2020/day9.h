@@ -6,6 +6,7 @@
 #include <vector>
 #include <string>
 #include "timer.h"
+#include "helper.h"
 
-int day9_1(std::string filename, Timer &timer);
-int day9_2(std::string filename, Timer &timer);
+int day9_1(Timer &timer);
+int day9_2(Timer &timer);

@@ -41,15 +41,10 @@ bool logfinder(std::vector<int>& input, int num_to_find, int l, int r) {
 	else return logfinder(input, num_to_find, l, m - 1);
 }
 
-void day1_1() {
-	std::ifstream file("input1.txt");
-	std::vector<int> input;
-	int entry;
-	while (file >> entry) {
-		input.push_back(entry);
-	}
+int day1_1(Timer &timer) {
+	std::vector<int> input = getIntInput("input1.txt");
 
-	auto start = std::chrono::high_resolution_clock::now();
+	timer.start();
 	quickSort(input, 0, input.size() - 1);
 
 	int answer = 0;
@@ -62,20 +57,14 @@ void day1_1() {
 		}
 	}
 
-	auto stop = std::chrono::high_resolution_clock::now();
-	std::chrono::duration<double, std::milli> time = stop - start;
-	printf("==========\nPART 1\nAnswer:        %d\nCalculated in: %f ms\n==========", answer, time.count());
+	timer.stop();
+	return answer;
 }
 
-void day1_2() {
-	std::ifstream file("input1.txt");
-	std::vector<int> input;
-	int entry;
-	while (file >> entry) {
-		input.push_back(entry);
-	}
+int day1_2(Timer &timer) {
+	std::vector<int> input = getIntInput("input1.txt");
 
-	auto start = std::chrono::high_resolution_clock::now();
+	timer.start();
 	quickSort(input, 0, input.size() - 1);
 
 	int answer = 0;
@@ -96,7 +85,6 @@ void day1_2() {
 		}
 	}
 
-	auto stop = std::chrono::high_resolution_clock::now();
-	std::chrono::duration<double, std::milli> time = stop - start;
-	printf("==========\nPART 2\nAnswer:        %d\nCalculated in: %f ms\n==========", answer, time.count());
+	timer.stop();
+	return answer;
 }

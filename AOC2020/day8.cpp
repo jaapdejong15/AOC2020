@@ -18,9 +18,12 @@ void initialize8() {
 	instruction_map["jmp"] = instruction::jmp;
 }
 
-void day8_1() {
+int day8_1(Timer &timer) {
 	initialize8();
 	std::vector<std::string> input = getStringInput("input8.txt");
+
+	timer.start();
+
 	int current_line = 0;
 	int accumulator = 0;
 	std::unordered_set<int> lines_visited;
@@ -47,7 +50,8 @@ void day8_1() {
 			break;
 		}
 	}
-	std::cout << "ANSWER: " << accumulator << std::endl;
+	timer.stop();
+	return accumulator;
 }
 
 /*
@@ -86,7 +90,7 @@ std::unordered_set<int> get_visited_lines(std::vector <std::tuple<instruction, i
 	return lines_visited;
 }
 
-std::tuple<bool, int> run(std::vector <std::tuple<instruction, int>> program) {
+std::tuple<bool, int> run_program(std::vector <std::tuple<instruction, int>> program) {
 	int current_line = 0;
 	int accumulator = 0;
 	std::unordered_set<int> lines_visited;
@@ -118,11 +122,11 @@ std::tuple<bool, int> run(std::vector <std::tuple<instruction, int>> program) {
 	return std::make_tuple(terminated, accumulator);
 }
 
-void day8_2() {
+int day8_2(Timer &timer) {
 	initialize8();
 	std::vector<std::string> input = getStringInput("input8.txt");
 
-	auto start = std::chrono::high_resolution_clock::now();
+	timer.start();
 
 	std::vector<std::tuple<instruction, int>> program;
 	for (std::string line : input) {
@@ -142,7 +146,7 @@ void day8_2() {
 		switch (x) {
 		case instruction::nop:
 			program[i] = std::make_tuple(instruction::jmp, argument);
-			results = run(program);
+			results = run_program(program);
 
 			if (std::get<0>(results)) {
 				answer = std::get<1>(results);
@@ -151,7 +155,7 @@ void day8_2() {
 			break;
 		case instruction::jmp:
 			program[i] = std::make_tuple(instruction::nop, argument);
-			results = run(program);
+			results = run_program(program);
 			if (std::get<0>(results)) {
 				answer = std::get<1>(results);
 			}
@@ -162,8 +166,6 @@ void day8_2() {
 		}
 	}
 
-
-	auto stop = std::chrono::high_resolution_clock::now();
-	std::chrono::duration<double, std::milli> time = stop - start;
-	printf("==========\nPART 2\nAnswer:        %d\nCalculated in: %f ms\n==========\n", answer, time.count());
+	timer.stop();
+	return answer;
 }

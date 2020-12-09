@@ -9,6 +9,15 @@ std::vector<uint64_t> getInt64Input(std::string filename) {
 	return lines;
 }
 
+std::vector<int> getIntInput(std::string filename) {
+	std::ifstream file(filename);
+	std::vector<int> lines;
+	for (std::string line; std::getline(file, line);) {
+		lines.push_back(std::stoi(line));
+	}
+	return lines;
+}
+
 std::vector<std::string> getStringInput(std::string filename) {
 	std::ifstream file(filename);
 	std::vector<std::string> lines;

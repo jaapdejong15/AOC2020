@@ -11,14 +11,27 @@
 #include <stdexcept>
 #include <tuple>
 
-typedef int Solution(std::string, Timer &timer);
+typedef int Solution(Timer& timer);
+typedef long long LSolution(Timer& timer);
 
-void run(Solution s, std::string input, unsigned int times = 1) {
+void run(Solution s, unsigned int times = 1) {
 	if (times < 1) throw std::invalid_argument("Times should be greater than zero!");
 	Timer* timer = new Timer();
 	std::int_fast64_t answer;
 	for (int i = 0; i < times; i++) {
-		answer = s(input, *timer);
+		answer = s(*timer);
+	}
+	std::tuple<double, int> timing_data = timer->getTimingData();
+	printf("Answer: %d\n", answer);
+	printf("\n--------===TIMER===--------\n -median time: %f ms\n -sample size: %d\n", std::get<0>(timing_data), std::get<1>(timing_data), std::get<1>(timing_data));
+}
+
+void run(LSolution s, unsigned int times = 1) {
+	if (times < 1) throw std::invalid_argument("Times should be greater than zero!");
+	Timer* timer = new Timer();
+	std::int_fast64_t answer;
+	for (int i = 0; i < times; i++) {
+		answer = s(*timer);
 	}
 	std::tuple<double, int> timing_data = timer->getTimingData();
 	printf("Answer: %lld\n", answer);
@@ -26,5 +39,5 @@ void run(Solution s, std::string input, unsigned int times = 1) {
 }
 
 int main(){
-	run(day9_2, "input9.txt", 1000);
+	run(day1_1, 100);
 }

@@ -5,6 +5,8 @@
 #include <chrono>
 #include <vector>
 #include <string>
+#include "timer.h"
+#include "helper.h"
 
-void day3_1();
-void day3_2();
+long long day3_1(Timer &timer);
+long long day3_2(Timer &timer);

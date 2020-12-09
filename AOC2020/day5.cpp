@@ -1,20 +1,11 @@
 #include "day5.h"
-
 #include <algorithm>
 
-std::vector<std::string> getInput() {
-	std::ifstream file("input5.txt");
-	std::vector<std::string> lines;
-	for (std::string line; std::getline(file, line);) {
-		lines.push_back(line);
-	}
-	return lines;
-}
 
-void day5_1() {
-	std::vector<std::string> lines = getInput();
+int day5_1(Timer &timer) {
+	std::vector<std::string> lines = getStringInput("input5.txt");
 
-	auto start = std::chrono::high_resolution_clock::now();
+	timer.start();
 
 	int max_seat_id = 0;
 	int row;
@@ -36,16 +27,14 @@ void day5_1() {
 		}
 		max_seat_id = std::max(max_seat_id, row * 8 + column);
 	}
-	auto stop = std::chrono::high_resolution_clock::now();
-
-	std::chrono::duration<double, std::milli> time = stop - start;
-	printf("==========\nPART 1\nAnswer:        %d\nCalculated in: %f ms\n==========\n", max_seat_id, time.count());
+	timer.stop();
+	return max_seat_id;
 }
 
-void day5_2() {
-	std::vector<std::string> lines = getInput();
+int day5_2(Timer &timer) {
+	std::vector<std::string> lines = getStringInput("input5.txt");
 
-	auto start = std::chrono::high_resolution_clock::now();
+	timer.start();
 
 	std::vector<int> seat_ids;
 	for (std::string line : lines) {
@@ -75,8 +64,6 @@ void day5_2() {
 		}
 		last_id = id;
 	}
-	auto stop = std::chrono::high_resolution_clock::now();
-
-	std::chrono::duration<double, std::milli> time = stop - start;
-	printf("==========\nPART 2\nAnswer:        %d\nCalculated in: %f ms\n==========\n", answer, time.count());
+	timer.stop();
+	return answer;
 }

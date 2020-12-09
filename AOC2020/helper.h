@@ -8,4 +8,6 @@
 
 std::vector<uint64_t> getInt64Input(std::string filename);
 
+std::vector<int> getIntInput(std::string filename);
+
 std::vector<std::string> getStringInput(std::string filename);

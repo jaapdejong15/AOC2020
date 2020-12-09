@@ -27,25 +27,22 @@ long long count(int x, int y) {
 	return answer;
 }
 
-void day3_1() {
-	auto start = std::chrono::high_resolution_clock::now();
+long long day3_1(Timer &timer) {
+	timer.start();
 	
 	long long answer = count(3, 1);
 
-	auto stop = std::chrono::high_resolution_clock::now();
-
-	std::chrono::duration<double, std::milli> time = stop - start;
-	printf("==========\nPART 1\nAnswer:        %lld\nCalculated in: %f ms\n==========", answer, time.count());
+	timer.stop();
+	return answer;
 }
 
-void day3_2() {
-	auto start = std::chrono::high_resolution_clock::now();
+long long day3_2(Timer &timer) {
+	timer.start();
 
 	long long answer = count(1, 1) * count(3, 1) * count(5, 1) * count(7, 1) * count(1, 2);
 
 	auto stop = std::chrono::high_resolution_clock::now();
 
-	std::chrono::duration<double, std::milli> time = stop - start;
-	printf("==========\nPART 2\nAnswer:        %lld\nCalculated in: %f ms\n==========", answer, time.count());
-
+	timer.stop();
+	return answer;
 }

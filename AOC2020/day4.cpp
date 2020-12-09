@@ -51,10 +51,10 @@ std::vector<std::string> getInput4() {
 	return lines;
 }
 
-void day4_1() {
-	std::vector<std::string> lines = getInput4();
+int day4_1(Timer &timer) {
+	std::vector<std::string> lines = getStringInput("input4.txt");
 
-	auto start = std::chrono::high_resolution_clock::now();
+	timer.start();
 
 	int count = 0;
 	std::vector<bool> fieldsPresent(7, false);
@@ -86,19 +86,17 @@ void day4_1() {
 		if (!b) valid = false;
 	}
 	count += valid;
-	auto stop = std::chrono::high_resolution_clock::now();
-
-	std::chrono::duration<double, std::milli> time = stop - start;
-	printf("==========\nPART 2\nAnswer:        %d\nCalculated in: %f ms\n==========\n", count, time.count());
+	timer.stop();
+	return count;
 }
 
-void day4_2() {
+int day4_2(Timer &timer) {
 	std::regex hair_color("^hcl:#[0-9a-f]{6}$");
 	std::regex eye_color("^ecl:(amb|blu|brn|gry|grn|hzl|oth)$");
 	initialize();	
-	std::vector<std::string> lines = getInput4();
+	std::vector<std::string> lines = getStringInput("input4.txt");
 
-	auto start = std::chrono::high_resolution_clock::now();
+	timer.start();
 
 	int count = 0;
 	std::vector<std::string> fields = { "byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid" };	
@@ -162,9 +160,6 @@ void day4_2() {
 		fieldsValid[i] = false;
 	}
 	count += valid;
-	auto stop = std::chrono::high_resolution_clock::now();
-
-	std::chrono::duration<double, std::milli> time = stop - start;
-	printf("==========\nPART 2\nAnswer:        %d\nCalculated in: %f ms\n==========\n", count, time.count());
-
+	timer.stop();
+	return count;
 }

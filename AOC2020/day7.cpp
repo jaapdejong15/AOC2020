@@ -1,5 +1,4 @@
 #include "day7.h"
-#include "helper.h"
 #include <regex>
 #include <unordered_set>
 #include <unordered_map>
@@ -123,28 +122,26 @@ public:
 	}
 };
 
-void day7_1() {
+int day7_1(Timer &timer) {
 	std::vector<std::string> input = getStringInput("input7.txt");
 
-	auto start = std::chrono::high_resolution_clock::now();
+	timer.start();
 
 	Graph g = Graph(input);
 	std::unordered_set<int> indices = g.bags_that_contain("shinygold");
 
-	auto stop = std::chrono::high_resolution_clock::now();
-	std::chrono::duration<double, std::milli> time = stop - start;
-	printf("==========\nPART 1\nAnswer:        %d\nCalculated in: %f ms\n==========\n", indices.size(), time.count());
+	timer.stop();
+	return indices.size();
 }
 
-void day7_2() {
+int day7_2(Timer &timer) {
 	std::vector<std::string> input = getStringInput("input7.txt");
 
-	auto start = std::chrono::high_resolution_clock::now();
+	timer.start();
 
 	Graph g = Graph(input);
 	int count = g.count_bags_inside("shinygold");
 
-	auto stop = std::chrono::high_resolution_clock::now();
-	std::chrono::duration<double, std::milli> time = stop - start;
-	printf("==========\nPART 2\nAnswer:        %d\nCalculated in: %f ms\n==========\n", count, time.count());
+	timer.stop();
+	return count;
 }

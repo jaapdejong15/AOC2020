@@ -1,10 +1,7 @@
 #include "day9.h"
-#include "helper.h"
 #include <algorithm>
-#include <algorithm>
-#include "timer.h"
 
-int day9_1(std::string filename, Timer &timer) {
+int day9_1(Timer &timer) {
 	std::vector<uint64_t> input = getInt64Input("input9.txt");
 
 	timer.start();
@@ -36,7 +33,7 @@ int day9_1(std::string filename, Timer &timer) {
 	return answer;
 }
 
-int day9_2(std::string filename, Timer &timer) {
+int day9_2(Timer &timer) {
 	std::vector<std::uint_fast64_t> input = getInt64Input("input9.txt");
 	uint64_t part1_answer = 257342611;
 
