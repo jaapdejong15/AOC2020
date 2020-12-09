@@ -1,7 +1,7 @@
 #include "day9.h"
 #include <algorithm>
 
-std::vector<uint64_t> getInput9() {
+std::vector<uint64_t> getInt64Input(std::string input_file) {
 	std::ifstream file("input9.txt");
 	std::vector<uint64_t> lines;
 	for (std::string line; std::getline(file, line);) {
@@ -10,8 +10,11 @@ std::vector<uint64_t> getInput9() {
 	return lines;
 }
 
-void day9_1() {
-	std::vector<uint64_t> input = getInput9();
+void day9_1(std::string input_file) {
+	std::vector<uint64_t> input = getInt64Input("input9.txt");
+
+	auto start = std::chrono::high_resolution_clock::now();
+
 	std::vector<uint64_t> last25;
 	for (int i = 0; i < 25; i++) {
 		last25.push_back(input[i]);
@@ -34,13 +37,17 @@ void day9_1() {
 		last25.erase(last25.begin());
 		last25.push_back(input[x]);
 	}
-	printf("Answer: \n");
-	std::cout << answer << std::endl;
+
+	auto stop = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<double, std::milli> time = stop - start;
+	printf("==========\nPART 1\nAnswer:        %dll\nCalculated in: %f ms\n==========\n", answer, time.count());
 }
 
-void day9_2() {
-	std::vector<std::uint_fast64_t> input = getInput9();
+void day9_2(std::string input_file) {
+	std::vector<std::uint_fast64_t> input = getInt64Input("input9.txt");
 	uint64_t part1_answer = 257342611;
+
+	auto start = std::chrono::high_resolution_clock::now();
 
 	std::uint_fast64_t max = 0;
 	std::uint_fast64_t min = part1_answer;
@@ -58,7 +65,8 @@ void day9_2() {
 			}
 		}
 	}
-	printf("Answer:");
-	std::cout << (max + min) << std::endl;
+	auto stop = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<double, std::milli> time = stop - start;
+	printf("==========\nPART 2\nAnswer:        %dll\nCalculated in: %f ms\n==========\n", max + min, time.count());
 	
 }
