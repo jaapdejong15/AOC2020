@@ -1,4 +1,5 @@
 #include "day7.h"
+#include "helper.h"
 #include <regex>
 #include <unordered_set>
 #include <unordered_map>
@@ -122,17 +123,8 @@ public:
 	}
 };
 
-std::vector<std::string> getInput7() {
-	std::ifstream file("input7.txt");
-	std::vector<std::string> lines;
-	for (std::string line; std::getline(file, line);) {
-		lines.push_back(line);
-	}
-	return lines;
-}
-
 void day7_1() {
-	std::vector<std::string> input = getInput7();
+	std::vector<std::string> input = getStringInput("input7.txt");
 
 	auto start = std::chrono::high_resolution_clock::now();
 
@@ -145,7 +137,7 @@ void day7_1() {
 }
 
 void day7_2() {
-	std::vector<std::string> input = getInput7();
+	std::vector<std::string> input = getStringInput("input7.txt");
 
 	auto start = std::chrono::high_resolution_clock::now();
 

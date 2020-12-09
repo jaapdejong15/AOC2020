@@ -1,4 +1,5 @@
 #include "day8.h"
+#include "helper.h"
 #include <unordered_set>
 #include <map>
 #include <tuple>
@@ -17,18 +18,9 @@ void initialize8() {
 	instruction_map["jmp"] = instruction::jmp;
 }
 
-std::vector<std::string> getInput8() {
-	std::ifstream file("input8.txt");
-	std::vector<std::string> lines;
-	for (std::string line; std::getline(file, line);) {
-		lines.push_back(line);
-	}
-	return lines;
-}
-
 void day8_1() {
 	initialize8();
-	std::vector<std::string> input = getInput8();
+	std::vector<std::string> input = getStringInput("input8.txt");
 	int current_line = 0;
 	int accumulator = 0;
 	std::unordered_set<int> lines_visited;
@@ -128,7 +120,7 @@ std::tuple<bool, int> run(std::vector <std::tuple<instruction, int>> program) {
 
 void day8_2() {
 	initialize8();
-	std::vector<std::string> input = getInput8();
+	std::vector<std::string> input = getStringInput("input8.txt");
 
 	auto start = std::chrono::high_resolution_clock::now();
 
