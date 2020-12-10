@@ -27,7 +27,6 @@ std::int_fast64_t validWaysToReach(int x) {
 	std::int_fast64_t result = 0;
 
 	for (int i = std::max(x - 3, 0); i < x; i++) {
-		std::cout << "x=" << x << "checking:" << i << std::endl;
 		if (joltage - input[i] <= 3) {
 			if (m[i] == 0) m[i] = validWaysToReach(i);
 			result += m[i];
@@ -37,6 +36,7 @@ std::int_fast64_t validWaysToReach(int x) {
 }
 
 std::int_fast64_t day10_2(Timer &timer) {
+	timer.start();
 	std::sort(input.begin(), input.end());
 	input.insert(input.begin(), 0);
 	input.push_back(input[input.size() - 1] + 3);
@@ -45,5 +45,7 @@ std::int_fast64_t day10_2(Timer &timer) {
 	for (int i = 1; i < input.size(); i++) {
 		m.push_back(0);
 	}
-	return validWaysToReach(input.size() - 1);
+	std::int_fast64_t answer = validWaysToReach(input.size() - 1);
+	timer.stop();
+	return answer;
 }

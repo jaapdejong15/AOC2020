@@ -42,9 +42,5 @@ void run(LSolution s, unsigned int times = 1) {
 }
 
 int main(){
-	//run(day10_1);
-	Timer* timer = new Timer();
-	long long int answer = day10_2(*timer);
-	printf("Answer: %lld\n", answer);
-	delete timer;
+	run(day10_1, 100);
 }
