@@ -42,5 +42,5 @@ void run(LSolution s, unsigned int times = 1) {
 }
 
 int main(){
-	run(day10_1, 100);
+	run(day10_2, 100);
 }

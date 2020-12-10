@@ -2,7 +2,7 @@
 #include <algorithm>
 
 int day10_1(Timer &timer) {
-	std::vector<int> input = getIntInput("input10.txt");
+	std::vector<int_fast16_t> input = getIntInput("input10.txt");
 
 	timer.start();
 	std::sort(input.begin(), input.end());
@@ -10,16 +10,18 @@ int day10_1(Timer &timer) {
 	input.insert(input.begin(), 0);
 	int num1 = 0;
 	int num3 = 1; // built-in adapter
+	std::int_fast16_t difference;
 	for (size_t i = 0; i < input.size(); i++) {
-		num1 += (input[i] - input[i - 1] == 1);
-		num3 += (input[i] - input[i - 1] == 3);
+		difference = input[i] - input[i - 1];
+		num1 += difference == 1;
+		num3 += difference == 3;
 	}
 
 	timer.stop();
 	return num1 * num3;
 }
 
-std::vector<int> input = getIntInput("input10.txt");
+std::vector<int> input;
 std::vector<std::int_fast64_t> m;
 
 std::int_fast64_t validWaysToReach(int x) {
@@ -35,7 +37,10 @@ std::int_fast64_t validWaysToReach(int x) {
 	return result;
 }
 
+
 std::int_fast64_t day10_2(Timer &timer) {
+	input = getIntInput("input10.txt");
+	m.clear();
 	timer.start();
 	std::sort(input.begin(), input.end());
 	input.insert(input.begin(), 0);
