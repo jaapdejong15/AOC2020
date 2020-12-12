@@ -168,7 +168,6 @@
     <ClInclude Include="day6.h" />
     <ClInclude Include="day7.h" />
     <ClInclude Include="day9.h" />
-    <ClInclude Include="grid.h" />
     <ClInclude Include="helper.h" />
     <ClInclude Include="input9.txt" />
     <ClInclude Include="timer.h" />

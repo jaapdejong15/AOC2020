@@ -1,5 +1,80 @@
 #include "day11.h"
-#include "grid.h"
+
+struct Node {
+	int_fast8_t value;
+	/*
+	0 1 2
+	3 . 4
+	5 6 7
+	*/
+	Node* neighbors[8];
+
+	~Node() {
+		delete neighbors[4];
+		if (neighbors[3] == NULL) {
+			delete neighbors[6];
+		}
+	}
+};
+
+Node* getGrid(std::vector<std::vector<int>> input) {
+	Node* head = NULL;
+	Node* pos3 = NULL;
+	Node* pos0 = NULL;
+	Node* pos1 = NULL;
+	Node* pos2 = NULL;
+	Node* first_node_of_row;
+
+	head = new Node();
+	head->value = input[0][0];
+	pos3 = head;
+	first_node_of_row = head;
+
+	bool very_first_value = true;
+	bool first_row = true;
+	Node* current;
+	for (std::vector<int> row : input) {
+		for (int i : row) {
+			if (very_first_value) {
+				very_first_value = false;
+			}
+			else {
+				current = new Node();
+				current->value = i;
+				current->neighbors[3] = pos3;
+				if (pos3 != NULL) {
+					pos3->neighbors[4] = current;
+				}
+				pos3 = current;
+				current->neighbors[0] = pos0;
+				if (pos0 != NULL) {
+					pos0->neighbors[7] = current;
+				}
+				current->neighbors[1] = pos1;
+				if (pos1 != NULL) {
+					pos1->neighbors[6] = current;
+				}
+
+				pos0 = pos1;
+				pos1 = pos2;
+				current->neighbors[2] = pos2;
+				if (pos2 != NULL) {
+					pos2->neighbors[5] = current;
+					pos2 = pos2->neighbors[4];
+				}
+			}
+
+		}
+
+		if (first_node_of_row->neighbors[6] != NULL) first_node_of_row = first_node_of_row->neighbors[6];
+		pos0 = NULL;
+		pos1 = first_node_of_row;
+		pos2 = first_node_of_row->neighbors[4];
+		pos3 = NULL;
+
+	}
+	return head;
+}
 
 std::vector<std::vector<int>> getInput11(std::string filename) {
 	std::ifstream file(filename);
@@ -91,57 +166,9 @@ bool checkDirection(int pos_x, int pos_y, int dir_x, int dir_y, std::vector<std:
 	return false;
 }
 
-int day11_2(Timer& timer)
-{
-	std::vector<std::vector<int>> previous = getInput11("input11.txt");
-	timer.start();
-	bool change = true;
-	while (change) {
-		change = false;
-		std::vector<std::vector<int>> next;
-		for (int y = 0; y < previous.size(); y++) {
-			std::vector<int> row;
-			for (int x = 0; x < previous[0].size(); x++) {
-				if (previous[y][x] > 0) {
-					int numOccupied = 0;
-					numOccupied += checkDirection(x, y, -1, -1, previous)
-						+ checkDirection(x, y, -1, 0, previous)
-						+ checkDirection(x, y, -1, 1, previous)
-						+ checkDirection(x, y, 0, -1, previous)
-						+ checkDirection(x, y, 0, 1, previous)
-						+ checkDirection(x, y, 1, -1, previous)
-						+ checkDirection(x, y, 1, 0, previous)
-						+ checkDirection(x, y, 1, 1, previous);
-					if (previous[y][x] == 1 && numOccupied == 0) {
-						change = true;
-						row.push_back(2);
-					} else if (previous[y][x] == 2 && numOccupied >= 5) {
-						change = true;
-						row.push_back(1);
-					} else {
-						row.push_back(previous[y][x]);
-					}
-				} else {
-					row.push_back(0);
-				}
-			}
-			next.push_back(row);
-		}
-		previous = next;
-	}
-	int numOccupied = 0;
-	for (std::vector<int> row : previous) {
-		for (int x : row) {
-			numOccupied += (x == 2);
-		}
-	}
-	timer.stop();
-	return numOccupied;
-}
-
-int checkAllDirections(Grid::Node* current_node) {
+int checkAllDirections(Node* current_node) {
 	int count = 0;
-	Grid::Node* next_node;
+	Node* next_node;
 	for (int i = 0; i < 8; i++) {
 		next_node = current_node->neighbors[i];
 
@@ -161,8 +188,8 @@ int checkAllDirections(Grid::Node* current_node) {
 	return count;
 }
 
-int checkIf0Directions(Grid::Node* current_node) {
-	Grid::Node* next_node;
+int checkIf0Directions(Node* current_node) {
+	Node* next_node;
 	for (int i = 0; i < 8; i++) {
 		next_node = current_node->neighbors[i];
 
@@ -185,47 +212,21 @@ int checkIf0Directions(Grid::Node* current_node) {
 	return 0;
 }
 
-void printGrid(Grid::Node* head, int height, int width) {
-	Grid::Node* row_start = head;
-	Grid::Node* current = head;
-	for (int y = 0; y < height; y++) {
-		for (int x = 0; x < width; x++) {
-			if (current->value == 0) {
-				std::cout << '.';
-			}
-			else if (current->value == 1) {
-				std::cout << 'L';
-			}
-			else if (current->value == 2) {
-				std::cout << '#';
-			}
-			current = current->neighbors[4];
-		}
-		std::cout << std::endl;
-		row_start = row_start->neighbors[6];
-		current = row_start;
-	}
-	std::cout << std::endl;
-}
-
-int day11_2_alternative(Timer& timer) {
+int day11_2(Timer& timer) {
 	std::vector<std::vector<int>> input = getInput11("input11.txt");
 	timer.start();
-
-	Grid g1 = Grid();
-	Grid g2 = Grid();
 	
 	int width = input[0].size();
 	int height = input.size();
 
 	bool change = true;
-	Grid::Node* head1 = g1.getGrid(input);
-	Grid::Node* head2 = g2.getGrid(input); 
-	Grid::Node* swap;
-	Grid::Node* row_start1 = head1;
-	Grid::Node* row_start2 = head2;
-	Grid::Node* current1 = head1;
-	Grid::Node* current2 = head2;
+	Node* head1 = getGrid(input);
+	Node* head2 = getGrid(input); 
+	Node* swap;
+	Node* row_start1 = head1;
+	Node* row_start2 = head2;
+	Node* current1 = head1;
+	Node* current2 = head2;
 	int seats;
 	while (change) {
 		change = false;

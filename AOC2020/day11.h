@@ -10,4 +10,3 @@
 
 int day11_1(Timer& timer);
 int day11_2(Timer& timer);
-int day11_2_alternative(Timer& timer);

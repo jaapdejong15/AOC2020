@@ -139,9 +139,6 @@
     <ClInclude Include="day11.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="grid.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="day12.h">
       <Filter>Header Files</Filter>
     </ClInclude>
