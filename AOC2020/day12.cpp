@@ -7,20 +7,22 @@ int day12_1(Timer& timer)
 {
 	std::vector<std::string> input = getStringInput("input12.txt");
 
-	int currentDirection = 1;
+	timer.start();
+	size_t currentDirection = 1;
 	int posx = 0;
 	int posy = 0;
+	int amount;
+	char instruction;
 	for (std::string s : input) {
-		char instruction = s[0];
-		int amount = std::stoi(s.substr(1));
+		instruction = s[0];
+		amount = std::stoi(s.substr(1));
 		switch (instruction) {
 		case 'F':
 			posx += xs[currentDirection] * amount;
 			posy += ys[currentDirection] * amount;
 			break;
 		case 'L':
-			currentDirection = (currentDirection - (amount / 90)) % 4;
-			currentDirection = currentDirection < 0 ? currentDirection + 4 : currentDirection;
+			currentDirection = (currentDirection - (amount / 90) + 4) % 4;
 			break;
 		case 'R':
 			currentDirection = (currentDirection + (amount / 90)) % 4;
@@ -39,21 +41,27 @@ int day12_1(Timer& timer)
 			break;
 		}
 	}
-	return abs(posx) + abs(posy);
+	int answer = abs(posx) + abs(posy);
+	timer.stop();
+	return answer;
 }
 
 int day12_2(Timer& timer)
 {
 	std::vector<std::string> input = getStringInput("input12.txt");
 
+	timer.start();
 	int waypoint_x = 10;
 	int waypoint_y = 1;
 	int ship_x = 0;
 	int ship_y = 0;
+	char instruction;
+	int amount; 
+	int swap;
 	for (std::string s : input) {
-		char instruction = s[0];
-		int amount = std::stoi(s.substr(1));
-		int swap;
+		instruction = s[0];
+		amount = std::stoi(s.substr(1));
+		swap;
 		switch (instruction) {
 		case 'F':
 			ship_x += waypoint_x * amount;
@@ -89,5 +97,7 @@ int day12_2(Timer& timer)
 			break;
 		}
 	}
-	return abs(ship_x) + abs(ship_y);
+	int answer = abs(ship_x) + abs(ship_y);
+	timer.stop();
+	return answer;
 }
