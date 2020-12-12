@@ -44,5 +44,50 @@ int day12_1(Timer& timer)
 
 int day12_2(Timer& timer)
 {
-	return 0;
+	std::vector<std::string> input = getStringInput("input12.txt");
+
+	int waypoint_x = 10;
+	int waypoint_y = 1;
+	int ship_x = 0;
+	int ship_y = 0;
+	for (std::string s : input) {
+		char instruction = s[0];
+		int amount = std::stoi(s.substr(1));
+		int swap;
+		switch (instruction) {
+		case 'F':
+			ship_x += waypoint_x * amount;
+			ship_y += waypoint_y * amount;
+			break;
+		case 'L':
+			for (int i = 0; i < amount / 90; i++) {
+				waypoint_y = -waypoint_y;
+				swap = waypoint_x;
+				waypoint_x = waypoint_y;
+				waypoint_y = swap;
+			}
+			break;
+		case 'R':
+			for (int i = 0; i < amount / 90; i++) {
+				waypoint_x = -waypoint_x;
+				swap = waypoint_x;
+				waypoint_x = waypoint_y;
+				waypoint_y = swap;
+			}
+			break;
+		case 'N':
+			waypoint_y += amount;
+			break;
+		case 'E':
+			waypoint_x += amount;
+			break;
+		case 'S':
+			waypoint_y -= amount;
+			break;
+		case 'W':
+			waypoint_x -= amount;
+			break;
+		}
+	}
+	return abs(ship_x) + abs(ship_y);
 }
