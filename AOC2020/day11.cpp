@@ -1,5 +1,27 @@
 #include "day11.h"
 
+std::vector<std::vector<int>> getInput11(std::string filename) {
+	std::ifstream file(filename);
+	std::vector<std::vector<int>> input;
+	for (std::string line; std::getline(file, line);) {
+		std::vector<int> row;
+		for (char c : line) {
+			switch (c) {
+			case 'L':
+				row.push_back(1);
+				break;
+			case '.':
+				row.push_back(0);
+				break;
+			default:
+				break;
+			}
+		}
+		input.push_back(row);
+	}
+	return input;
+}
+
 struct Node {
 	int_fast8_t value;
 	/*
@@ -17,6 +39,9 @@ struct Node {
 	}
 };
 
+/*
+  Constructs a 2d linked list that links to all eight of its neighbors.
+*/
 Node* getGrid(std::vector<std::vector<int>> input) {
 	Node* head = NULL;
 	Node* pos3 = NULL;
@@ -76,94 +101,96 @@ Node* getGrid(std::vector<std::vector<int>> input) {
 	return head;
 }
 
-std::vector<std::vector<int>> getInput11(std::string filename) {
-	std::ifstream file(filename);
-	std::vector<std::vector<int>> input;
-	for (std::string line; std::getline(file, line);) {
-		std::vector<int> row;
-		for (char c : line) {
-			switch (c) {
-			case 'L':
-				row.push_back(1);
-				break;
-			case '.':
-				row.push_back(0);
-				break;
-			default:
-				break;
-			}
-		}
-		input.push_back(row);
-	}
-	return input;
-}
-
-int day11_1(Timer& timer)
-{
-	timer.start();
-	std::vector<std::vector<int>> previous = getInput11("input11.txt");
-	bool change = true;
-	while (change) {
-		change = false;
-		std::vector<std::vector<int>> next;
-		for (int y = 0; y < previous.size(); y++) {
-			std::vector<int> row;
-			for (int x = 0; x < previous[0].size(); x++) {
-				if (previous[y][x] > 0) {
-					int numOccupied = 0;
-					numOccupied = (x - 1 >= 0 && y - 1 >= 0 && previous[y - 1][x - 1] == 2)
-						+ (x - 1 >= 0 && previous[y][x - 1] == 2)
-						+ (x - 1 >= 0 && y + 1 < previous.size() && previous[y + 1][x - 1] == 2)
-						+ (y - 1 >= 0 && previous[y - 1][x] == 2)
-						+ (y + 1 < previous.size() && previous[y + 1][x] == 2)
-						+ (x + 1 < previous[0].size() && y - 1 >= 0 && previous[y - 1][x + 1] == 2)
-						+ (x + 1 < previous[0].size() && previous[y][x + 1] == 2)
-						+ (x + 1 < previous[0].size() && y + 1 < previous.size() && previous[y + 1][x + 1] == 2);
-					if (previous[y][x] == 1 && numOccupied == 0) {
-						change = true;
-						row.push_back(2);
-					}
-					else if (previous[y][x] == 2 && numOccupied >= 4) {
-						change = true;
-						row.push_back(1);
-					}
-					else {
-						row.push_back(previous[y][x]);
-					}
-				}
-				else {
-					row.push_back(0);
-				}
-			}
-			next.push_back(row);
-		}
-		previous = next;
-	}
-
-	int numOccupied = 0;
-	for (std::vector<int> row : previous) {
-		for (int x : row) {
-			numOccupied += (x == 2);
-		}
-	}
-	timer.stop();
-	return numOccupied;
-}
-
-bool checkDirection(int pos_x, int pos_y, int dir_x, int dir_y, std::vector<std::vector<int>> &input) {
-	pos_x += dir_x;
-	pos_y += dir_y;
-	while (pos_x >= 0 && pos_y >= 0 && pos_x < input[0].size() && pos_y < input.size()) {
-		if (input[pos_y][pos_x] == 2) {
-			return true;
-		}
-		else if (input[pos_y][pos_x] == 1) {
-			return false;
-		}
-		pos_x += dir_x;
-		pos_y += dir_y;
+bool checkIf0Neighbors(Node* node) {
+	for (int i = 0; i < 8; i++) {
+		if (node->neighbors[i] != NULL && node->neighbors[i]->value == 2) return true;
 	}
 	return false;
+}
+
+int checkAllNeighbors(Node* node) {
+	int count = 0;
+	for (int i = 0; i < 8; i++) {
+		count += node->neighbors[i] != NULL && node->neighbors[i]->value == 2;
+	}
+	return count;
+}
+
+int day11_1(Timer& timer) {
+	std::vector<std::vector<int>> input = getInput11("input11.txt");
+
+	timer.start();
+
+	int width = input[0].size();
+	int height = input.size();
+
+	bool change = true;
+	Node* head1 = getGrid(input);
+	Node* head2 = getGrid(input);
+	Node* swap;
+	Node* row_start1 = head1;
+	Node* row_start2 = head2;
+	Node* current1 = head1;
+	Node* current2 = head2;
+	int seats;
+	while (change) {
+		change = false;
+		row_start1 = head1;
+		row_start2 = head2;
+		current1 = head1;
+		current2 = head2;
+		for (int y = 0; y < height; y++) {
+			current1 = row_start1;
+			current2 = row_start2;
+			for (int x = 0; x < width; x++) {
+				if (current1->value == 0) {
+					current2->value = current1->value;
+				}
+				else if (current1->value == 1) {
+					seats = checkIf0Neighbors(current1);
+					if (seats == 0) {
+						change = true;
+						current2->value = 2;
+					}
+					else {
+						current2->value = current1->value;
+					}
+				}
+				else if (current1->value == 2) {
+					seats = checkAllNeighbors(current1);
+					if (seats >= 4) {
+						change = true;
+						current2->value = 1;
+					}
+					else {
+						current2->value = current1->value;
+					}
+				}
+				current1 = current1->neighbors[4];
+				current2 = current2->neighbors[4];
+			}
+			row_start1 = row_start1->neighbors[6];
+			row_start2 = row_start2->neighbors[6];
+		}
+		swap = head1;
+		head1 = head2;
+		head2 = swap;
+	}
+	row_start1 = head1;
+	current1 = head1;
+	int answer = 0;
+	for (int y = 0; y < height; y++) {
+		for (int x = 0; x < width; x++) {
+			answer += (current1->value == 2);
+			current1 = current1->neighbors[4];
+		}
+		row_start1 = row_start1->neighbors[6];
+		current1 = row_start1;
+	}
+	timer.stop();
+	delete head1;
+	delete head2;
+	return answer;
 }
 
 int checkAllDirections(Node* current_node) {
