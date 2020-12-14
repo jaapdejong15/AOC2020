@@ -26,3 +26,16 @@ std::vector<std::string> getStringInput(std::string filename) {
 	}
 	return lines;
 }
+
+std::vector<std::string> splitter(std::string x, char token) {
+	std::vector<std::string> output;
+	size_t start = 0;
+	for (size_t i = 0; i < x.size(); i++) {
+		if (x[i] == token) {
+			output.push_back(x.substr(start, i - start));
+			start = i + 1;
+		}
+	}
+	output.push_back(x.substr(start, x.size() - start));
+	return output;
+}

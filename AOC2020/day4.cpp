@@ -29,19 +29,6 @@ void initialize() {
 	field_map["cid"] = field::cid;
 }
 
-std::vector<std::string> split(std::string x, char token) {
-	std::vector<std::string> output;
-	size_t start = 0;
-	for (size_t i = 0; i < x.size(); i++) {
-		if (x[i] == token) {
-			output.push_back(x.substr(start, i - start));
-			start = i + 1;
-		}
-	}
-	output.push_back(x.substr(start, x.size() - start));
-	return output;
-}
-
 std::vector<std::string> getInput4() {
 	std::ifstream file("input4.txt");
 	std::vector<std::string> lines;
@@ -71,7 +58,7 @@ int day4_1(Timer &timer) {
 			}
 		}
 		else {
-			std::vector<std::string> keyvalues = split(line, ' ');
+			std::vector<std::string> keyvalues = splitter(line, ' ');
 			for (std::string keyvalue : keyvalues) {
 				std::string key = keyvalue.substr(0, 3);
 				for (int i = 0; i < fields.size(); i++) {
@@ -114,7 +101,7 @@ int day4_2(Timer &timer) {
 			}
 			count += valid;
 		} else {
-			std::vector<std::string> keyvalues = split(line, ' ');
+			std::vector<std::string> keyvalues = splitter(line, ' ');
 			for (std::string keyvalue : keyvalues) {
 				field key = field_map[keyvalue.substr(0, 3)];
 				switch (field_map[keyvalue.substr(0, 3)]) {

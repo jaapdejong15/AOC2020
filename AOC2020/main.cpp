@@ -13,10 +13,12 @@
 #include "day10.h"
 #include "day11.h"
 #include "day12.h"
+#include "day13.h"
 #include "day14.h"
 
 typedef int Solution(Timer& timer);
 typedef long long LSolution(Timer& timer);
+typedef unsigned long long ULLSolution(Timer& timer);
 
 void run(Solution s, unsigned int times = 1) {
 	if (times < 1) throw std::invalid_argument("Times should be greater than zero!");
@@ -44,6 +46,20 @@ void run(LSolution s, unsigned int times = 1) {
 	delete timer;
 }
 
+
+void run(ULLSolution s, unsigned int times = 1) {
+	if (times < 1) throw std::invalid_argument("Times should be greater than zero!");
+	Timer* timer = new Timer();
+	std::uint_fast64_t answer;
+	for (uint_fast32_t i = 0; i < times; i++) {
+		answer = s(*timer);
+	}
+	std::tuple<double, int> timing_data = timer->getTimingData();
+	printf("Answer: %llu\n", answer);
+	printf("\n--------===TIMER===--------\n -median time: %f ms\n -sample size: %d\n", std::get<0>(timing_data), std::get<1>(timing_data));
+	delete timer;
+}
+
 int main(){
-	run(day14_2);
+	run(day13_2);
 }
