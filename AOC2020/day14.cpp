@@ -26,6 +26,7 @@ long long day14_1(Timer& timer)
 {
 	std::unordered_map<unsigned long, unsigned long long> mem;
 	std::vector<std::string> input = getStringInput("input14.txt");
+	timer.start();
 	std::string mask;
 	for (std::string line : input) {
 		if (line[1] == 'a') {
@@ -42,6 +43,7 @@ long long day14_1(Timer& timer)
 	for (auto const& x : mem) {
 		sum += x.second;
 	}
+	timer.stop();
 	return sum;
 }
 
@@ -73,6 +75,8 @@ long long day14_2(Timer& timer)
 {
 	std::unordered_map<unsigned long long, unsigned long long> mem;
 	std::vector<std::string> input = getStringInput("input14.txt");
+
+	timer.start();
 	std::string mask;
 	for (std::string line : input) {
 		if (line[1] == 'a') {
@@ -93,6 +97,6 @@ long long day14_2(Timer& timer)
 	for (auto const& x : mem) {
 		sum += x.second;
 	}
+	timer.stop();
 	return sum;
-	return 0;
 }
