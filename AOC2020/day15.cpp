@@ -15,7 +15,7 @@ long long day15_1(Timer& timer)
 
 	unsigned long long lastNumberSpoken = starting_numbers[starting_numbers.size() - 1];
 	unsigned long long currentNumber = 0;
-	for (; t < 30000000 - 1; t++) {
+	for (; t < 2020 - 1; t++) {
 		if (memory.find(lastNumberSpoken) != memory.end()) {
 			currentNumber = t - memory[lastNumberSpoken];
 		}
