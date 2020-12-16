@@ -9,4 +9,4 @@
 #include "helper.h"
 
 int day16_1(Timer& timer);
-int day16_2(Timer& timer);
+long long day16_2(Timer& timer);
