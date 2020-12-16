@@ -9,6 +9,7 @@ int day16_1(Timer& timer)
 	
 	std::unordered_set<int> validNumbers;
 
+	timer.start();
 	//rules
 	int i;
 	for (i = 0; ; i++) {
@@ -39,7 +40,7 @@ int day16_1(Timer& timer)
 		}
 	}
 
-
+	timer.stop();
 	return errorRate;
 }
 
@@ -51,7 +52,9 @@ long long day16_2(Timer& timer)
 	std::vector<std::string> fields;
 	std::unordered_set<int> validNumbers;
 
-	//rules
+	timer.start();
+
+	// Read the rules
 	int i;
 	for (i = 0; ; i++) {
 		std::string s = input[i];
@@ -71,11 +74,11 @@ long long day16_2(Timer& timer)
 	}
 	i += 2;
 
-	// My ticket
+	// Read my ticket
 	std::vector<std::string> myValues = splitter(input[i], ',');
 	i += 3;
 
-	//nearby tickets
+	// Readnearby tickets
 	int errorRate = 0;
 	std::vector<std::vector<int>> validTickets(fields.size());
 	for (; i < input.size(); i++) {
@@ -94,14 +97,17 @@ long long day16_2(Timer& timer)
 		}
 	}
 
-	std::vector<std::unordered_set<std::string>> possibleFields(fields.size());
-
+	
 	// check which field belongs where
+	std::vector<std::unordered_set<int>> possibleFields(fields.size()); // Stores the possible fields for each index
+	std::pair<int, int> range1;
+	std::pair<int, int> range2;
+	bool valid;
 	for (int j = 0; j < validTickets.size(); j++) {
 		for (size_t k = 0; k < fields.size(); k++) {
-			std::pair<int, int> range1 = validRanges[k * 2];
-			std::pair<int, int> range2 = validRanges[k * 2 + 1];
-			bool valid = true;
+			range1 = validRanges[k * 2];
+			range2 = validRanges[k * 2 + 1];
+			valid = true;
 			for (int x : validTickets[j]) {
 				if (!((x >= range1.first && x <= range1.second) || (x >= range2.first && x <= range2.second))) {
 					valid = false;
@@ -109,21 +115,18 @@ long long day16_2(Timer& timer)
 				}
 			}
 			if (valid) {
-				//printf("Possible field: %s\n", fields[k].c_str());
-				possibleFields[j].insert(fields[k]);
+				possibleFields[j].insert(k);
 			}
 		}
 	}
 
-
-
-	std::unordered_set<std::string> fieldsFound;
+	std::unordered_set<int> fieldsFound;
 	bool done;
-	std::string field;
+	int field;
 	while (true) {
 		done = true;
 		// Find a field with only one possibility
-		for (std::unordered_set<std::string> fields : possibleFields) {
+		for (std::unordered_set<int> fields : possibleFields) {
 			if (fields.size() == 1 && fieldsFound.find(*fields.begin()) == fieldsFound.end()) {
 				field = *fields.begin();
 				done = false;
@@ -141,13 +144,13 @@ long long day16_2(Timer& timer)
 	}
 
 	unsigned long long answer = 1;
-
 	for (int j = 0; j < fields.size(); j++) {
-		for (std::string k : possibleFields[j]) {
-			if (k.substr(0, 9).compare("departure") == 0) {
+		for (int k : possibleFields[j]) {
+			if (fields[k].substr(0, 9).compare("departure") == 0) {
 				answer *= std::stoi(myValues[j]);
 			}
 		}
 	}
+	timer.stop();
 	return answer;
 }
