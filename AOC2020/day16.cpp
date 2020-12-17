@@ -78,7 +78,7 @@ long long day16_2(Timer& timer)
 	std::vector<std::string> myValues = splitter(input[i], ',');
 	i += 3;
 
-	// Readnearby tickets
+	// Read nearby tickets
 	int errorRate = 0;
 	std::vector<std::vector<int>> validTickets(fields.size());
 	for (; i < input.size(); i++) {
