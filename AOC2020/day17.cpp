@@ -28,6 +28,7 @@ int countActiveNeighbors(Position3D pos, std::set<Position3D> &active) {
 			for (int z_offset = -1; z_offset <= 1; z_offset++) {
 				if (x_offset != 0 || y_offset != 0 || z_offset != 0) {
 					count += (active.find(Position3D(pos.x + x_offset, pos.y + y_offset, pos.z + z_offset)) != active.end());
+					if (count > 3) return 4;
 				}
 			}
 		}
@@ -40,6 +41,7 @@ int day17_1(Timer& timer)
 	std::vector<std::string> input = getStringInput("input17.txt");
 	std::set<Position3D> active;
 
+	timer.start();
 	for (int y = 0; y < input.size(); y++) {
 		for (int x = 0; x < input[y].size(); x++) {
 			if (input[y][x] == '#') {
@@ -75,7 +77,7 @@ int day17_1(Timer& timer)
 		nextActive.clear();
 		positionsToCheck.clear();
 	}
-	
+	timer.stop();
 	return active.size();
 }
 
@@ -109,6 +111,7 @@ int countActiveNeighbors(Position4D pos, std::set<Position4D>& active) {
 				for (int w_offset = -1; w_offset <= 1; w_offset++) {
 					if (x_offset != 0 || y_offset != 0 || z_offset != 0 || w_offset != 0) {
 						count += (active.find(Position4D(pos.x + x_offset, pos.y + y_offset, pos.z + z_offset, pos.w + w_offset)) != active.end());
+						if (count > 3) return 4;
 					}
 				}
 			}
@@ -119,6 +122,7 @@ int countActiveNeighbors(Position4D pos, std::set<Position4D>& active) {
 
 int day17_2(Timer& timer)
 {
+	timer.start();
 	std::vector<std::string> input = getStringInput("input17.txt");
 	std::set<Position4D> active;
 
@@ -159,5 +163,6 @@ int day17_2(Timer& timer)
 		nextActive.clear();
 		positionsToCheck.clear();
 	}
+	timer.stop();
 	return active.size();
 }
