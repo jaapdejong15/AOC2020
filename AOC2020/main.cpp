@@ -65,5 +65,5 @@ void run(ULLSolution s, unsigned int times = 1) {
 }
 
 int main(){
-	run(day18_2);
+	run(day18_2, 25);
 }

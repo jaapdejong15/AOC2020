@@ -64,24 +64,18 @@ long long day18_1(Timer& timer)
 {
 	unsigned long long answer = 0;
 	std::vector<std::string> input = getStringInput("input18.txt");
+	timer.start();
 	for (std::string line : input) {
 		std::vector<std::string> expression = splitter(line, ' ');
 		unsigned long long value = evaluate(expression);
 		answer += value;
 	}
+	timer.stop();
 	return answer;
 }
 
-unsigned long long evaluate2(std::vector<std::string> expression, bool print=false) {
+unsigned long long evaluate2(std::vector<std::string> expression) {
 	// Replace brackets
-
-	if (print) {
-		std::cout << "EVALUATING: ";
-		for (std::string x : expression) {
-			std::cout << x << ' ';
-		}
-		std::cout << std::endl;
-	}
 	std::vector<std::string> withoutBrackets;
 	for (int i = 0; i < expression.size(); i++) {
 		if (expression[i][0] == '(') {
@@ -108,13 +102,6 @@ unsigned long long evaluate2(std::vector<std::string> expression, bool print=fal
 		}
 	}
 
-	if (print) {
-		for (std::string x : withoutBrackets) {
-			std::cout << x << ' ';
-		}
-		std::cout << std::endl;
-	}
-
 	// Replace + operator
 	std::vector<std::string> withoutPlus;
 	unsigned long long total = 0;
@@ -130,22 +117,11 @@ unsigned long long evaluate2(std::vector<std::string> expression, bool print=fal
 	}
 	withoutPlus.push_back(std::to_string(total));
 
-	if (print) {
-		for (std::string x : withoutPlus) {
-			std::cout << x << ' ';
-		}
-		std::cout << std::endl;
-	}
-
 	unsigned long long answer = 1;
 	for (std::string x : withoutPlus) {
 		if (x[0] != '*') {
 			answer *= std::stoull(x);
 		}
-	}
-
-	if (print) {
-		printf("Answer: %llu\n", answer);
 	}
 	return answer;
 }
@@ -154,11 +130,12 @@ unsigned long long day18_2(Timer& timer)
 {
 	unsigned long long answer = 0;
 	std::vector<std::string> input = getStringInput("input18.txt");
+	timer.start();
 	for (std::string line : input) {
 		std::vector<std::string> expression = splitter(line, ' ');
-		unsigned long long value = evaluate2(expression, false);
+		unsigned long long value = evaluate2(expression);
 		answer += value;
 	}
+	timer.stop();
 	return answer;
-	return 0;
 }
