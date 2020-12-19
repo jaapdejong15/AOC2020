@@ -19,6 +19,7 @@
 #include "day16.h"
 #include "day17.h"
 #include "day18.h"
+#include "day19.h"
 
 typedef int Solution(Timer& timer);
 typedef long long LSolution(Timer& timer);
@@ -65,5 +66,5 @@ void run(ULLSolution s, unsigned int times = 1) {
 }
 
 int main(){
-	run(day18_2, 25);
+	run(day19_2);
 }
