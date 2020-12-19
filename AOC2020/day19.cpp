@@ -79,6 +79,7 @@ unsigned long long day19_1(Timer& timer)
 {
 	std::vector<std::string> input = getStringInput("input19.txt");
 
+	timer.start();
 	std::unordered_map<int, std::vector<std::string>> rules;
 	std::unordered_map<int, int> rule_lengths;
 	int i = 0;
@@ -98,6 +99,7 @@ unsigned long long day19_1(Timer& timer)
 			count++;
 		}
 	}
+	timer.stop();
 	return count;
 }
 
@@ -105,6 +107,7 @@ unsigned long long day19_2(Timer& timer)
 {
 	std::vector<std::string> input = getStringInput("input19.txt");
 
+	timer.start();
 	std::unordered_map<int, std::vector<std::string>> rules;
 	std::unordered_map<int, int> rule_lengths;
 	int i = 0;
@@ -125,6 +128,6 @@ unsigned long long day19_2(Timer& timer)
 			count++;
 		}
 	}
+	timer.stop();
 	return count;
-	return 0;
 }
