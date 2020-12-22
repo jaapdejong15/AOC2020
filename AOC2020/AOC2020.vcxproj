@@ -134,6 +134,8 @@
     <ClCompile Include="day17.cpp" />
     <ClCompile Include="day18.cpp" />
     <ClCompile Include="day19.cpp" />
+    <ClCompile Include="day20.cpp" />
+    <ClCompile Include="day20.h" />
     <ClCompile Include="day21.cpp" />
     <ClCompile Include="day21.h" />
     <ClCompile Include="day3.cpp" />
@@ -161,6 +163,7 @@
     <Text Include="input18.txt" />
     <Text Include="input19.txt" />
     <Text Include="input2.txt" />
+    <Text Include="input20.txt" />
     <Text Include="input21.txt" />
     <Text Include="input3.txt" />
     <Text Include="input4.txt" />
