@@ -179,7 +179,7 @@ std::vector<std::vector<bool>> rotate(std::vector<std::vector<bool>> input, Side
 	return output;
 }
 
-
+/*
 unsigned long long day20_2(Timer& timer)
 {
 	std::vector<std::string> input = getStringInput("input20.txt");
@@ -199,6 +199,7 @@ unsigned long long day20_2(Timer& timer)
 	}
 	*/
 
+/*
 	std::unordered_map<uint_fast16_t, std::vector<std::pair<uint_fast16_t, Side>>> edgeToID;
 	std::unordered_map<uint_fast16_t, std::vector<std::pair<uint_fast16_t, Side>>> IDtoEdge;
 
@@ -221,8 +222,9 @@ unsigned long long day20_2(Timer& timer)
 	std::unordered_map<int, Tile> piecesMatched;
 	for (int id : ids) {
 		Tile t(id);
-		tiles[id] = t;
+		//tiles[id] = t;
 	}
 
 	return 0;
 }
+*/
