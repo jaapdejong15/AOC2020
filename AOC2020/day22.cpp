@@ -89,14 +89,7 @@ unsigned int playRecursiveCombat(std::deque<int> player1deck, std::deque<int> pl
 	int p2card;
 	bool recursiveProtection = false;
 	while (!player1deck.empty() && !player2deck.empty()) {
-		//std::cout << "P1: ";
-		//printDeque(player1deck);
-
-		//std::cout << "P2: ";
-		//printDeque(player2deck);
-
 		std::string configuration = createConfiguration(player1deck, player2deck);
-		//std::cout << configuration.c_str() << std::endl;
 		if (previousConfigurations.find(configuration) != previousConfigurations.end()) {
 			recursiveProtection = true;
 			break;
@@ -108,9 +101,7 @@ unsigned int playRecursiveCombat(std::deque<int> player1deck, std::deque<int> pl
 		player1deck.pop_front();
 		player2deck.pop_front();
 		bool p2_is_winner;
-		if (p1card > player1deck.size() || p2card > player2deck.size()) {
-			p2_is_winner = p1card < p2card;
-		}
+		if (p1card > player1deck.size() || p2card > player2deck.size()) p2_is_winner = p1card < p2card;
 		else {
 			std::deque<int> p1new_deck(player1deck.begin(), player1deck.begin() + p1card);
 			std::deque<int> p2new_deck(player2deck.begin(), player2deck.begin() + p2card);
