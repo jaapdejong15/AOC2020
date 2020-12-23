@@ -8,5 +8,7 @@
 #include "timer.h"
 #include "helper.h"
 
+struct CircularListNode;
+
 std::string day23_1(Timer& timer);
 unsigned long long day23_2(Timer& timer);

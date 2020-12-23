@@ -84,5 +84,5 @@ void run(SSolution s, unsigned int times = 1) {
 }
 
 int main(){
-	run(day23_1);
+	run(day23_2, 10);
 }
