@@ -1,7 +1,7 @@
 #include "day23.h"
-#include <map>
 
-#define MILLION(a) a * 1000000
+#define NUM_CUPS 1000000
+#define ITERATIONS 10000000
 
 struct CircularListNode {
 	CircularListNode* prev;
@@ -105,7 +105,7 @@ unsigned long long day23_2(Timer& timer)
 
 	CircularListNode2* cupWith1 = head;
 
-	std::map<int, CircularListNode2*> nodeMap;
+	std::vector<CircularListNode2*> nodeMap(NUM_CUPS + 1, NULL);
 	nodeMap[input[0]] = head;
 
 	timer.start();
@@ -119,17 +119,15 @@ unsigned long long day23_2(Timer& timer)
 		nodeMap[input[i]] = current;
 		previous = current;
 	}
-
 	
 	// Create cups until 1 million is reached
-	for (int i = input.size() + 1; i <= MILLION(1); i++) {
+	for (int i = input.size() + 1; i <= NUM_CUPS; i++) {
 		CircularListNode2* current = new CircularListNode2(i);
 		previous->next = current;
 		current->prev = previous;
 		nodeMap[i] = current;
 		previous = current;
 	}
-	
 
 	head->prev = previous;
 	previous->next = head;
@@ -139,15 +137,13 @@ unsigned long long day23_2(Timer& timer)
 	CircularListNode2* cup1;
 	CircularListNode2* cup3;
 	CircularListNode2* destinationCup;
-	int *val1;
-	int *val2; 
-	int *val3;
-	for (int i = 0; i < MILLION(10); i++) {
+	int val1, val2, val3;
+	for (int i = 0; i < ITERATIONS; i++) {
 		cup1 = currentCup->next;
 		cup3 = cup1->next->next;
-		val1 = &cup1->x;
-		val2 = &cup1->next->x;
-		val3 = &cup3->x;
+		val1 = cup1->x;
+		val2 = cup1->next->x;
+		val3 = cup3->x;
 
 		// Remove next three cups;
 		currentCup->next = cup3->next;
@@ -155,11 +151,11 @@ unsigned long long day23_2(Timer& timer)
 
 		// Find destination cup
 		int valueToFind = currentCup->x - 1;
-		if (valueToFind == 0) valueToFind = MILLION(1);
+		if (valueToFind == 0) valueToFind = NUM_CUPS;
 		while (true) {
-			if (valueToFind == *val1 || valueToFind == *val2 || valueToFind == *val3) {
-				if (valueToFind == 1) valueToFind = MILLION(1);
-				else valueToFind--;
+			if (valueToFind == val1 || valueToFind == val2 || valueToFind == val3) {
+				valueToFind--;
+				if (!valueToFind) valueToFind = NUM_CUPS;
 			}
 			else break;
 		}
@@ -179,7 +175,8 @@ unsigned long long day23_2(Timer& timer)
 
 	timer.stop();
 
-	for (int i = 1; i <= MILLION(1); i++) {
+	// Delete nodes from the memory
+	for (int i = 1; i <= NUM_CUPS; i++) {
 		delete nodeMap[i];
 	}
 
