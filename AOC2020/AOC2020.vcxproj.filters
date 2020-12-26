@@ -75,6 +75,9 @@
     <Text Include="input22.txt">
       <Filter>Resource Files</Filter>
     </Text>
+    <Text Include="input24.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -164,6 +167,9 @@
     <ClCompile Include="day23.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="day24.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="day1.h">
@@ -233,6 +239,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="day23.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="day24.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

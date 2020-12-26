@@ -21,13 +21,11 @@ struct CircularListNode {
 };
 
 struct CircularListNode2 {
-	CircularListNode2* prev;
 	CircularListNode2* next;
 	int x;
 
 	CircularListNode2(int x) {
 		this->x = x;
-		prev = NULL;
 		next = NULL;
 	}
 };
@@ -114,7 +112,6 @@ unsigned long long day23_2(Timer& timer)
 	for (int i = 1; i < input.size(); i++) {
 		CircularListNode2* current = new CircularListNode2(input[i]);
 		previous->next = current;
-		current->prev = previous;
 		if (input[i] == 1) cupWith1 = current;
 		nodeMap[input[i]] = current;
 		previous = current;
@@ -124,17 +121,14 @@ unsigned long long day23_2(Timer& timer)
 	for (int i = input.size() + 1; i <= NUM_CUPS; i++) {
 		CircularListNode2* current = new CircularListNode2(i);
 		previous->next = current;
-		current->prev = previous;
 		nodeMap[i] = current;
 		previous = current;
 	}
 
-	head->prev = previous;
 	previous->next = head;
 
-
 	CircularListNode2* currentCup = head;
-	CircularListNode2* cup1;
+	CircularListNode2* cup1; 
 	CircularListNode2* cup3;
 	CircularListNode2* destinationCup;
 	int val1, val2, val3;
@@ -147,7 +141,6 @@ unsigned long long day23_2(Timer& timer)
 
 		// Remove next three cups;
 		currentCup->next = cup3->next;
-		cup3->next->prev = currentCup;
 
 		// Find destination cup
 		int valueToFind = currentCup->x - 1;
@@ -164,8 +157,6 @@ unsigned long long day23_2(Timer& timer)
 
 		// Move the three cups
 		cup3->next = destinationCup->next;
-		destinationCup->next->prev = cup3;
-		cup1->prev = destinationCup;
 		destinationCup->next = cup1;
 
 		// Select current cup
